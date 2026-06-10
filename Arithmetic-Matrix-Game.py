@@ -45,6 +45,37 @@ font_medium = pygame.font.SysFont("arial", 28)
 font_small = pygame.font.SysFont("arial", 20)
 
 # TAREAS DE 4 A 6
+Lógica del juego
+
+Matriz inicializada una sola vez con valores aleatorios entre 0 y 11
+
+matrix = []
+used_cells = []
+for fila in range(N):
+nueva_fila_matrix = []
+nueva_fila_usadas = []
+for columna in range(N):
+nueva_fila_matrix.append(random.randint(0, 11))
+nueva_fila_usadas.append(False)
+matrix.append(nueva_fila_matrix)
+used_cells.append(nueva_fila_usadas)
+
+players = [{"name": jugador1, "score": 0}, {"name": jugador2, "score": 0}]
+current_player_idx = 0
+current_turn = 1
+
+Estados del juego: "SELECT_CELL", "ANSWERING", "GAME_OVER"
+
+game_state = "SELECT_CELL"
+
+Variables de turno
+
+selected_cell = None
+neighbors = []
+correct_answer = 0
+options = []
+time_start = 0
+TIME_LIMIT = 25000 # 25 segundos en milisegundos
 
 # TAREAS DE 7 A 9
 
