@@ -77,6 +77,28 @@ options = []
 time_start = 0
 TIME_LIMIT = 25000 # 25 segundos en milisegundos
 
+def get_neighbors(row, col):
+"""Devuelve las coordenadas de los vecinos válidos."""
+dirs = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
+valid_neighbors = []
+for dr, dc in dirs:
+r, c = row + dr, col + dc
+if 0 <= r < N and 0 <= c < N:
+valid_neighbors.append((r, c))
+return valid_neighbors
+
+def generate_options(correct):
+"""Genera 4 opciones de respuesta incluyendo la correcta."""
+opts = [correct]
+while len(opts) < 4:
+# Generar respuestas falsas plausibles
+offset = random.randint(-20, 20)
+fake_ans = correct + offset
+if fake_ans not in opts and fake_ans >= 0:
+opts.append(fake_ans)
+random.shuffle(opts)
+return opts
+
 # TAREAS DE 7 A 9
 
 def draw_ui(time_left):
