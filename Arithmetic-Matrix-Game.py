@@ -89,3 +89,59 @@ while running:
     
     pygame.display.flip()
     
+    # Manejo de eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+            
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = event.pos
+            
+            if game_state == "SELECT_CELL":
+                # Detectar clic en la matriz
+                col = (mouse_pos[0] - MARGIN) // (CELL_SIZE + MARGIN)
+                row = (mouse_pos[1] - MARGIN - 50) // (CELL_SIZE + MARGIN)
+                
+                if 0 <= row < N and 0 <= col < N:
+                    if not used_cells[row][col]:
+                        selected_cell = (row, col)
+                        neighbors = get_neighbors(row, col)
+                        
+                        # Cálculo matemático de las reglas
+                        sum_neighbors = 0
+                        for r, c in neighbors:
+                            sum_neighbors = sum_neighbors + matrix[r][c]
+                        correct_answer = sum_neighbors * matrix[row][col]
+                        
+                        options = generate_options(correct_answer)
+                        time_start = pygame.time.get_ticks()
+                        game_state = "ANSWERING"
+                        
+            elif game_state == "ANSWERING":
+                # Detectar clic en opciones
+                for i in range(len(option_rects)):
+                    rect = option_rects[i]
+                    if rect.collidepoint(mouse_pos):
+                        if options[i] == correct_answer:
+                            players[current_player_idx]["score"] += 3
+                            
+                        # Marcar la celda seleccionada con X
+                        used_cells[selected_cell[0]][selected_cell[1]] = True
+                        
+                        # Cambiar de turno
+                        if current_player_idx == 0:
+                            current_player_idx = 1
+                        else:
+                            current_player_idx = 0
+                        if current_player_idx == 0:
+                            current_turn += 1
+                            
+                        if current_turn <= max_turnos:
+                            game_state = "SELECT_CELL"
+                        else:
+                            game_state = "GAME_OVER"
+
+    clock.tick(30)
+
+pygame.quit()
+sys.exit()
