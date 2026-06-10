@@ -99,6 +99,44 @@ opts.append(fake_ans)
 random.shuffle(opts)
 return opts
 
+def draw_grid():
+"""Dibuja el tablero en pantalla."""
+for row in range(N):
+for col in range(N):
+rect = pygame.Rect(
+MARGIN + col * (CELL_SIZE + MARGIN),
+MARGIN + row * (CELL_SIZE + MARGIN) + 50,
+CELL_SIZE, CELL_SIZE
+)
+
+        # Celda ya utilizada
+        if used_cells[row][col] and game_state == "SELECT_CELL":
+            pygame.draw.rect(screen, GRIS, rect)
+            text = font_large.render("X", True, NEGRO)
+            screen.blit(text, (rect.x + 25, rect.y + 15))
+        # Durante la fase de respuesta
+        elif game_state == "ANSWERING":
+            if (row, col) == selected_cell:
+                pygame.draw.rect(screen, BLANCO, rect)
+                pygame.draw.rect(screen, ROJO, rect, 3)
+                val_text = font_large.render(str(matrix[row][col]), True, ROJO)
+                screen.blit(val_text, (rect.x + 20, rect.y + 15))
+            elif (row, col) in neighbors:
+                pygame.draw.rect(screen, BLANCO, rect)
+                pygame.draw.rect(screen, AZUL, rect, 3)
+                val_text = font_large.render(str(matrix[row][col]), True, AZUL)
+                screen.blit(val_text, (rect.x + 20, rect.y + 15))
+            else:
+                pygame.draw.rect(screen, BLANCO, rect)
+                pygame.draw.rect(screen, NEGRO, rect, 2)
+                if used_cells[row][col]:
+                     text = font_large.render("X", True, NEGRO)
+                     screen.blit(text, (rect.x + 25, rect.y + 15))
+        # Celdas ocultas por defecto
+        else:
+            pygame.draw.rect(screen, BLANCO, rect)
+            pygame.draw.rect(screen, NEGRO, rect, 2)
+
 # TAREAS DE 7 A 9
 
 def draw_ui(time_left):
