@@ -27,3 +27,19 @@ CELL_SIZE = 80
 MARGIN = 10
 WIDTH = max(800, N * CELL_SIZE + (N + 1) * MARGIN + 300)
 HEIGHT = max(600, N * CELL_SIZE + (N + 1) * MARGIN + 100)
+
+#colores
+Colores
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+GRIS = (200, 200, 200)
+ROJO = (200, 50, 50)
+AZUL = (50, 50, 200)
+VERDE = (50, 200, 50)
+
+#Configuración de la ventana
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Matriz Aritmética")
+font_large = pygame.font.SysFont("arial", 40, bold=True)
+font_medium = pygame.font.SysFont("arial", 28)
+font_small = pygame.font.SysFont("arial", 20)
